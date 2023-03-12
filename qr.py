@@ -2,11 +2,11 @@ import argparse
 import numpy as np
 from pyzbar.pyzbar import decode
 import cv2
-
+import tomllib
 
 parser = argparse.ArgumentParser(description="qr code scanner to text file")
-parser.add_argument("-f", "--file", type=str, default="scouting.txt",
-                    help="file to output qr code scans to, relative or absolute")
+# parser.add_argument("-f", "--file", type=str, default="scouting.txt",
+#                     help="file to output qr code scans to, relative or absolute")
 parser.add_argument("-v", "--verbose", action="store_true")
 parser.add_argument("-d", "--remove-duplicate", action="store_true")
 args = parser.parse_args()
@@ -34,16 +34,19 @@ def decoder(image):
 
 
 def save(values):
-    with open(args.file, "a") as scouting_file:
+    with open(args.file, "a") as output_file:
         if len(v) != 0:
-            for i in v:
-                scouting_file.write(i + "\n")
+            for i in values:
+                output_file.write(i + "\n")
             print("SAVED! ( ͡° ͜ʖ ͡°)\n")
         else:
             print("SAVED NOTHING! ¯\\_(ツ)_/¯\n")
 
 
 if __name__ == "__main__":
+    with open("config.toml", "rb") as f:
+        config = tomllib.load(f)
+
     if not args.remove_duplicate:
         cap = cv2.VideoCapture(0)
         v = set()
@@ -63,10 +66,10 @@ if __name__ == "__main__":
                 break
 
     elif args.remove_duplicate:
-        with open(args.file, "r+") as scouting_file:
-            values = set(scouting_file.readlines())
-            scouting_file.seek(0)
+        with open(config["output_file"], "r+") as output_file:
+            values = set(output_file.readlines())
+            output_file.seek(0)
             for v in values:
-                scouting_file.write(v)
-            scouting_file.truncate()
+                output_file.write(v)
+            output_file.truncate()
         print("duplicates removed from scouting file: {args.files}")

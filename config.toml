@@ -1,0 +1,2 @@
+# the .tsv file to write to
+output_file = "scouting.tsv"
