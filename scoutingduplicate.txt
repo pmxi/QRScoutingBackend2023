@@ -1,0 +1,11 @@
+name;number;Pit;Swerve;High;Low;2;1;Yes;com
+hb;hb;Pit;Mecanum;High;Low;3;3;Yes;jhh
+2;jn;Pit;Mecanum;HighLow;Low;2;12345;Yes;hhh
+name;381;Match;;;;;;;;2;Yes;2;4;je;High;Low;s
+h;3;Pit;No Drive;;No Climb;0;;No;iNo Drive;;No Climb;0;;No;no
+n;bb;Pit;No Drive;;No Climb;0;;No;j
+yh;bb;Pit;No Drive;;No Climb;0;;No;v
+name;10;Pit;West Coast (6 or 8 wheel tank);High;Low;2;4;Yes;nj
+name2;123;Pit;West Coast (6 or 8 wheel tank);High;High;1;4;No;no
+name;no;Match;;;;;;;;2;Yes;2;5;h;No Attempt;High;n
+Pa;246;Match;;;;;;;;14;Yes;2;4;8;No Attempt;No Climb;n
