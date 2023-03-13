@@ -9,20 +9,9 @@ parser.add_argument("-v", "--verbose", action="store_true")
 args = parser.parse_args()
 
 
-# def save(values):
-#     with open(args.file, "a") as output_file:
-#         if len(v) != 0:
-#             for i in values:
-#                 output_file.write(i + "\n")
-#             print("SAVED! ( ͡° ͜ʖ ͡°)\n")
-#         else:
-#             print("SAVED NOTHING! ¯\\_(ツ)_/¯\n")
-
-
 def main():
     with open("config.toml", "rb") as f:
         config = tomllib.load(f)
-    # data = pd.read_csv(config["output_file"], sep='\t')
     cap = cv2.VideoCapture(config["camera_id"])
     data_submitted = []
     while True:
