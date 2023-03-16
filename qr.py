@@ -33,7 +33,7 @@ def main():
                 frame, string, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2
             )
             if args.verbose:
-                print('QR: ' + barcode_data + ' | Type: ' + barcode_type)
+                print(barcode_type + ': ' + barcode_data)
             if barcode_data not in data_submitted:
                 data_submitted.append(barcode_data)
                 scout_db.add_match_from_qr_string(barcode_data)

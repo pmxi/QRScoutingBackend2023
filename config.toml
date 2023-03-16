@@ -1,4 +1,4 @@
 # the .tsv file to write to
-output_file = "scouting.tsv"
+output_file = "scouting.csv"
 database_file = "scouting.db"
 camera_id = 0
