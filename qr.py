@@ -28,15 +28,15 @@ def main():
             cv2.polylines(frame, [pts], True, (0, 255, 0), 3)
             barcode_data = obj.data.decode('utf-8')
             barcode_type = obj.type
-            string = str(barcode_data) + ' | Type ' + str(obj.type)
+            barcode_string = barcode_type + ': ' + barcode_data
             cv2.putText(
-                frame, string, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2
+                frame, barcode_string, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 135, 0), 2
             )
             if args.verbose:
-                print(barcode_type + ': ' + barcode_data)
+                print(barcode_string)
             if barcode_data not in data_submitted:
                 data_submitted.append(barcode_data)
-                scout_db.add_match_from_qr_string(barcode_data)
+                scout_db.add_match_from_qr_str(barcode_data)
                 print('Data submitted: ' + barcode_data)
 
         cv2.imshow('QR SCANNER', frame)

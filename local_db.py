@@ -1,25 +1,7 @@
 import sqlite3
 import datetime
 
-
-def parse_qr_string(qr_string: str) -> list:
-    """Parse a QR string into a list of values"""
-    data_l = qr_string.split('\t')
-    bool_indices = [4, 5, 7, 14, 15, 16, 25, 30, 31, 32]
-    for i in bool_indices:
-        if data_l[i] == 'true':
-            data_l[i] = 1
-        else:
-            data_l[i] = 0
-    integer_indices = [1, 3, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 22, 24, 27]
-    for i in integer_indices:
-        try:
-            data_l[i] = int(data_l[i])
-        except ValueError:
-            print('ValueError: ' + data_l[i] + ' at index ' + str(i) + ' is not an integer')
-            raise ValueError
-    data_l.insert(0, datetime.datetime.now(datetime.timezone.utc).isoformat())
-    return data_l
+from qr_str_parser import parse_qr_string
 
 
 class ScoutDB:
@@ -54,19 +36,28 @@ class ScoutDB:
                         pick_up_cube_cone_where TEXT,
                         links INTEGER,
                         attempted_before_endgame INTEGER,
-                        charge_station INTEGER,
+                        charge_station TEXT,
                         num_alliance_bots_docked INTEGER,
-                        driver_skill INTEGER,
+                        driver_skill TEXT,
                         defense_rating INTEGER,
                         died INTEGER,
                         tipped_over INTEGER,
-                        yellow_red_card TEXT,
-                        comments TEXT
-                        )''')
+                        yellow_red_card INTEGER,
+                        comments TEXT,
+                        UNIQUE(scouter_initials, match_number, robot, team_number, no_show, using_human_player,
+                        starting_location, mobility, upper_cone_scored_auto, middle_cone_scored_auto,
+                        lower_cone_scored_auto, upper_cube_scored_auto, middle_cube_scored_auto, lower_cube_scored_auto,
+                        picked_up_more_cube_cone, docked, engaged, upper_cone_scored_teleop, middle_cone_scored_teleop,
+                        lower_cone_scored_teleop, upper_cube_scored_teleop, middle_cube_scored_teleop,
+                        lower_cube_scored_teleop, pick_up_cube_cone_where, links, attempted_before_endgame,
+                        charge_station, num_alliance_bots_docked, driver_skill, defense_rating, died, tipped_over,
+                        yellow_red_card, comments) ON CONFLICT IGNORE
+                        );''')
         self.conn.commit()
 
-    def add_match_from_qr_string(self, data: str):
+    def add_match_from_qr_str(self, data: str):
         data_l = parse_qr_string(data)
+        data_l.insert(0, datetime.datetime.now(datetime.timezone.utc).isoformat())
         self.cur.execute('''INSERT INTO match_scout VALUES (
                         ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''', data_l)
         self.conn.commit()
